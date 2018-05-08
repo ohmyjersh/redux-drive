@@ -18,7 +18,12 @@ describe('create the actions with types funcs and payloads', () => {
   it('should create a func with the correct payload', () => {
     const definedActions = {
       MULTIPLE_STUFF: {
-        payload: (one, two, three, four) => ({ one, two, three, four }),
+        payload: (one, two, three, four) => ({
+          one,
+          two,
+          three,
+          four,
+        }),
         reduce: () => {},
       },
     };
@@ -36,7 +41,12 @@ describe('create the actions with types funcs and payloads', () => {
   it('should create with just payload func', () => {
     const definedActions = {
       MULTIPLE_STUFF: {
-        payload: (one, two, three, four) => ({ one, two, three, four }),
+        payload: (one, two, three, four) => ({
+          one,
+          two,
+          three,
+          four,
+        }),
       },
     };
     const { actionTypes, actions } = generationDefinition(definedActions);
@@ -53,7 +63,12 @@ describe('create the actions with types funcs and payloads', () => {
   it('should create with just payload', () => {
     const definedActions = {
       MULTIPLE_STUFF: {
-        payload: { one: 'one', two: 'two', three: 'three', four: 'four' },
+        payload: {
+          one: 'one',
+          two: 'two',
+          three: 'three',
+          four: 'four',
+        },
       },
     };
     const { actionTypes, actions } = generationDefinition(definedActions);
