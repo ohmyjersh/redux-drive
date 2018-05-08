@@ -1,3 +1,3 @@
-import Cat from './cat.js';
-import Dog from './dog.js';
-export { Dog, Cat };
+import { createReducer, generationDefinition } from './reduxDrive';
+
+export { createReducer, generationDefinition };
