@@ -26,10 +26,15 @@ export const generationDefinition = definedActions => {
     }
   );
 };
-export const createReducer = (...definedActions) => (state, action) => {
+export const createReducer = ({ initialState } = {}, ...definedActions) => (
+  state = initialState,
+  action
+) => {
   return definedActions.reduce((state, currDef) => {
     return currDef.hasOwnProperty(action.type) && !!currDef[action.type].func
       ? currDef[action.type].func(state, action.payload)
-      : { ...state, ...payload };
+      : !!action.payload
+        ? { ...state, ...action.payload }
+        : { ...state };
   }, state);
 };
