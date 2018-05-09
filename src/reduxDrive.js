@@ -26,11 +26,14 @@ export const generationDefinition = definedActions => {
     }
   );
 };
-export const createReducer = ({ initialState } = {}, ...definedActions) => (
+export const createReducer = (definedActions, initialState = {}) => (
   state = initialState,
   action
 ) => {
-  return definedActions.reduce((state, currDef) => {
+  let definedActionsArr = Array.isArray(definedActions)
+    ? definedActions
+    : [definedActions];
+  return definedActionsArr.reduce((state, currDef) => {
     return currDef.hasOwnProperty(action.type) && !!currDef[action.type].func
       ? currDef[action.type].func(state, action.payload)
       : !!action.payload
