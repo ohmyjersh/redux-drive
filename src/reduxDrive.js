@@ -26,25 +26,6 @@ export const generationDefinition = definedActions => {
     }
   );
 };
-// export const createReducer = (definedActions, initialState = {}) => {
-//   console.log(definedActions);
-//   let definedActionsArr = Array.isArray(definedActions)
-//     ? definedActions
-//     : [definedActions];
-//   return (state = initialState, action) => {
-//     return definedActionsArr.reduce((state, currDef) => {
-//       if (currDef.actionTypes.hasOwnProperty(action.type)) {
-//         if (typeof currDef.reducers[action.type] === 'function') {
-//           return currDef.reducers[action.type](state, action.payload); //
-//         }
-//         if (!!action.payload) {
-//           return Array.isArray(state) ? [...state] : isObject(state) ? { ...state, ...action.payload } : action.payload;
-//         }
-//       }
-//       return Array.isArray(state) ? [...state] : isObject(state) ? { ...state } : state;
-//     }, state);
-//   };
-// };
 
 export const createReducer = (definedActions, initialState = {}) => {
   let definedActionsArr = Array.isArray(definedActions)
@@ -56,16 +37,15 @@ export const createReducer = (definedActions, initialState = {}) => {
       ? updateObjectState
       : updatePrimitiveState;
   return (state = initialState, action) => {
-    return definedActionsArr.reduce((state, currDef) => {
-      if (currDef.actionTypes[action.type]) {
+    return definedActionsArr
+      .filter(x => x.actionTypes.hasOwnProperty(action.type))
+      .reduce((state, currDef) => {
         let reducerFunc =
           typeof currDef.reducers[action.type] === 'function'
             ? currDef.reducers[action.type]
             : stateFunc;
         return reducerFunc(state, action.payload);
-      }
-      return stateFunc(state);
-    }, state);
+      }, state);
   };
 };
 
@@ -76,6 +56,13 @@ const updateArrayState = (state, payload) =>
   !!payload ? [...state, ...payload] : [...state];
 
 const updateObjectState = (state, payload) =>
-  !!payload ? { ...state, ...payload } : { ...state };
+  !!payload
+    ? {
+        ...state,
+        ...payload,
+      }
+    : {
+        ...state,
+      };
 
 const isObject = obj => obj === Object(obj);
