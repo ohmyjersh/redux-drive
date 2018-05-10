@@ -2,11 +2,8 @@ import React from 'react';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Footer from './Footer';
 import FilterLink from '../containers/FilterLink';
-import {
-  SHOW_ALL,
-  SHOW_ACTIVE,
-  SHOW_COMPLETED,
-} from '../constants/TodoFilters';
+import { Filters } from '../reducers/visibilityDef';
+const { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } = Filters;
 
 const setup = propOverrides => {
   const props = Object.assign(

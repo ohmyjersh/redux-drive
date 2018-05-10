@@ -1,9 +1,8 @@
-import todos from './todos';
-import * as types from '../constants/ActionTypes';
+import { actions, reducer } from './todoDef';
 
 describe('todos reducer', () => {
   it('should handle initial state', () => {
-    expect(todos(undefined, {})).toEqual([
+    expect(reducer(undefined, {})).toEqual([
       {
         text: 'Use Redux',
         completed: false,
@@ -13,12 +12,7 @@ describe('todos reducer', () => {
   });
 
   it('should handle ADD_TODO', () => {
-    expect(
-      todos([], {
-        type: types.ADD_TODO,
-        text: 'Run the tests',
-      })
-    ).toEqual([
+    expect(reducer([], actions.addTodo('Run the tests'))).toEqual([
       {
         text: 'Run the tests',
         completed: false,
@@ -27,7 +21,7 @@ describe('todos reducer', () => {
     ]);
 
     expect(
-      todos(
+      reducer(
         [
           {
             text: 'Use Redux',
@@ -35,10 +29,7 @@ describe('todos reducer', () => {
             id: 0,
           },
         ],
-        {
-          type: types.ADD_TODO,
-          text: 'Run the tests',
-        }
+        actions.addTodo('Run the tests')
       )
     ).toEqual([
       {
@@ -54,7 +45,7 @@ describe('todos reducer', () => {
     ]);
 
     expect(
-      todos(
+      reducer(
         [
           {
             text: 'Use Redux',
@@ -67,10 +58,7 @@ describe('todos reducer', () => {
             id: 1,
           },
         ],
-        {
-          type: types.ADD_TODO,
-          text: 'Fix the tests',
-        }
+        actions.addTodo('Fix the tests')
       )
     ).toEqual([
       {
@@ -93,7 +81,7 @@ describe('todos reducer', () => {
 
   it('should handle DELETE_TODO', () => {
     expect(
-      todos(
+      reducer(
         [
           {
             text: 'Use Redux',
@@ -106,10 +94,7 @@ describe('todos reducer', () => {
             id: 1,
           },
         ],
-        {
-          type: types.DELETE_TODO,
-          id: 1,
-        }
+        actions.deleteTodo(1)
       )
     ).toEqual([
       {
@@ -122,7 +107,7 @@ describe('todos reducer', () => {
 
   it('should handle EDIT_TODO', () => {
     expect(
-      todos(
+      reducer(
         [
           {
             text: 'Run the tests',
@@ -135,11 +120,7 @@ describe('todos reducer', () => {
             id: 0,
           },
         ],
-        {
-          type: types.EDIT_TODO,
-          text: 'Fix the tests',
-          id: 1,
-        }
+        actions.editTodo(1, 'Fix the tests')
       )
     ).toEqual([
       {
@@ -157,7 +138,7 @@ describe('todos reducer', () => {
 
   it('should handle COMPLETE_TODO', () => {
     expect(
-      todos(
+      reducer(
         [
           {
             text: 'Run the tests',
@@ -170,10 +151,7 @@ describe('todos reducer', () => {
             id: 0,
           },
         ],
-        {
-          type: types.COMPLETE_TODO,
-          id: 1,
-        }
+        actions.completeTodo(1)
       )
     ).toEqual([
       {
@@ -191,7 +169,7 @@ describe('todos reducer', () => {
 
   it('should handle COMPLETE_ALL_TODOS', () => {
     expect(
-      todos(
+      reducer(
         [
           {
             text: 'Run the tests',
@@ -204,9 +182,7 @@ describe('todos reducer', () => {
             id: 0,
           },
         ],
-        {
-          type: types.COMPLETE_ALL_TODOS,
-        }
+        actions.completeAllTodos()
       )
     ).toEqual([
       {
@@ -223,7 +199,7 @@ describe('todos reducer', () => {
 
     // Unmark if all todos are currently completed
     expect(
-      todos(
+      reducer(
         [
           {
             text: 'Run the tests',
@@ -236,9 +212,7 @@ describe('todos reducer', () => {
             id: 0,
           },
         ],
-        {
-          type: types.COMPLETE_ALL_TODOS,
-        }
+        actions.completeAllTodos()
       )
     ).toEqual([
       {
@@ -256,7 +230,7 @@ describe('todos reducer', () => {
 
   it('should handle CLEAR_COMPLETED', () => {
     expect(
-      todos(
+      reducer(
         [
           {
             text: 'Run the tests',
@@ -269,9 +243,7 @@ describe('todos reducer', () => {
             id: 0,
           },
         ],
-        {
-          type: types.CLEAR_COMPLETED,
-        }
+        actions.clearCompleted()
       )
     ).toEqual([
       {
@@ -285,18 +257,10 @@ describe('todos reducer', () => {
   it('should not generate duplicate ids after CLEAR_COMPLETED', () => {
     expect(
       [
-        {
-          type: types.COMPLETE_TODO,
-          id: 0,
-        },
-        {
-          type: types.CLEAR_COMPLETED,
-        },
-        {
-          type: types.ADD_TODO,
-          text: 'Write more tests',
-        },
-      ].reduce(todos, [
+        actions.completeTodo(0),
+        actions.clearCompleted(),
+        actions.addTodo('Write more tests'),
+      ].reduce(reducer, [
         {
           id: 0,
           completed: false,
