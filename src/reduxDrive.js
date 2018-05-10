@@ -56,13 +56,6 @@ const updateArrayState = (state, payload) =>
   !!payload ? [...state, ...payload] : [...state];
 
 const updateObjectState = (state, payload) =>
-  !!payload
-    ? {
-        ...state,
-        ...payload,
-      }
-    : {
-        ...state,
-      };
+  !!payload ? { ...state, ...payload } : { ...state };
 
 const isObject = obj => obj === Object(obj);
