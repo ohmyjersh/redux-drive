@@ -35,7 +35,7 @@ const definedActions = {
       ),
   },
   COMPLETE_ALL_TODOS: {
-    reduce: (state, payload) =>
+    reduce: state =>
       state.map(todo => {
         const areAllMarked = state.every(todo => todo.completed);
         return {
@@ -45,7 +45,7 @@ const definedActions = {
       }),
   },
   CLEAR_COMPLETED: {
-    reduce: (state, payload) => state.filter(todo => todo.completed === false),
+    reduce: state => state.filter(todo => todo.completed === false),
   },
 };
 const definitions = generationDefinition(definedActions);

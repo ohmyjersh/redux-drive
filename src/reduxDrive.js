@@ -35,7 +35,7 @@ export const createReducer = (definedActions, initialState = {}) => {
     ? updateArrayState
     : isObject(initialState)
       ? updateObjectState
-      : updatePrimitiveState;
+      : updateStringOrPrimitiveState;
   return (state = initialState, action) => {
     return definedActionsArr
       .filter(x => x.actionTypes.hasOwnProperty(action.type))
@@ -49,7 +49,7 @@ export const createReducer = (definedActions, initialState = {}) => {
   };
 };
 
-const updatePrimitiveState = (state, payload) =>
+const updateStringOrPrimitiveState = (state, payload) =>
   payload === false || payload === 0 || payload ? payload : state;
 
 const updateArrayState = (state, payload) =>
