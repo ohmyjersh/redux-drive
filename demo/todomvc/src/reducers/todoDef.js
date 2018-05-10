@@ -3,17 +3,14 @@ import { createReducer, generationDefinition } from 'redux-drive';
 const definedActions = {
   ADD_TODO: {
     payload: text => ({ text }),
-    reduce: (state, payload) => {
-      console.log('helo');
-      return [
-        ...state,
-        {
-          id: state.reduce((maxId, todo) => Math.max(todo.id, maxId), -1) + 1,
-          completed: false,
-          text: payload.text,
-        },
-      ];
-    },
+    reduce: (state, payload) => [
+      ...state,
+      {
+        id: state.reduce((maxId, todo) => Math.max(todo.id, maxId), -1) + 1,
+        completed: false,
+        text: payload.text,
+      },
+    ],
   },
   DELETE_TODO: {
     payload: id => ({ id }),
@@ -29,7 +26,7 @@ const definedActions = {
   },
   COMPLETE_TODO: {
     payload: id => ({ id }),
-    reducer: (state, payload) =>
+    reduce: (state, payload) =>
       state.map(
         todo =>
           todo.id === payload.id

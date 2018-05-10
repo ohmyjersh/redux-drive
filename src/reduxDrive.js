@@ -17,7 +17,6 @@ export const generationDefinition = definedActions => {
           : payload
             ? createAction(curr, payload) // just create the payload
             : createAction(curr); // everthing else
-
       return acc;
     },
     {
@@ -27,36 +26,56 @@ export const generationDefinition = definedActions => {
     }
   );
 };
+// export const createReducer = (definedActions, initialState = {}) => {
+//   console.log(definedActions);
+//   let definedActionsArr = Array.isArray(definedActions)
+//     ? definedActions
+//     : [definedActions];
+//   return (state = initialState, action) => {
+//     return definedActionsArr.reduce((state, currDef) => {
+//       if (currDef.actionTypes.hasOwnProperty(action.type)) {
+//         if (typeof currDef.reducers[action.type] === 'function') {
+//           return currDef.reducers[action.type](state, action.payload); //
+//         }
+//         if (!!action.payload) {
+//           return Array.isArray(state) ? [...state] : isObject(state) ? { ...state, ...action.payload } : action.payload;
+//         }
+//       }
+//       return Array.isArray(state) ? [...state] : isObject(state) ? { ...state } : state;
+//     }, state);
+//   };
+// };
+
 export const createReducer = (definedActions, initialState = {}) => {
-  console.log(definedActions);
   let definedActionsArr = Array.isArray(definedActions)
     ? definedActions
     : [definedActions];
+  let stateFunc = Array.isArray(initialState)
+    ? updateArrayState
+    : isObject(initialState)
+      ? updateObjectState
+      : updatePrimitiveState;
   return (state = initialState, action) => {
-    console.log(action);
-    console.log(definedActionsArr);
     return definedActionsArr.reduce((state, currDef) => {
-      console.log(currDef);
-      console.log(currDef.actionTypes.hasOwnProperty(action.type));
-      if (currDef.actionTypes.hasOwnProperty(action.type)) {
-        //step in if actiontype is found
-        console.log('has the type');
-        if (typeof currDef.reducers[action.type] === 'function') {
-          // step in if reducer is found for that actiontype
-          console.log('functionsss');
-          return currDef.reducers[action.type](state, action.payload);
-        }
-        if (!!action.payload) {
-          // step in if there's a payload
-          return Array.isArray(state)
-            ? [...state, ...action.payload]
-            : {
-                ...state,
-                ...action.payload,
-              };
-        }
+      if (currDef.actionTypes[action.type]) {
+        let reducerFunc =
+          typeof currDef.reducers[action.type] === 'function'
+            ? currDef.reducers[action.type]
+            : stateFunc;
+        return reducerFunc(state, action.payload);
       }
-      return Array.isArray(state) ? [...state] : { ...state };
+      return stateFunc(state);
     }, state);
   };
 };
+
+const updatePrimitiveState = (state, payload) =>
+  payload === false || payload === 0 || payload ? payload : state;
+
+const updateArrayState = (state, payload) =>
+  !!payload ? [...state, ...payload] : [...state];
+
+const updateObjectState = (state, payload) =>
+  !!payload ? { ...state, ...payload } : { ...state };
+
+const isObject = obj => obj === Object(obj);

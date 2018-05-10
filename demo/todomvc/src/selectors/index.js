@@ -1,9 +1,6 @@
 import { createSelector } from 'reselect';
-import {
-  SHOW_ALL,
-  SHOW_COMPLETED,
-  SHOW_ACTIVE,
-} from '../constants/TodoFilters';
+import { Filters } from '../reducers/visibilityDef';
+const { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } = Filters;
 
 const getVisibilityFilter = state => state.visibilityFilter;
 const getTodos = state => state.todos;

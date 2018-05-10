@@ -73,7 +73,7 @@ describe('create the actions with types funcs and payloads', () => {
     };
     const { actionTypes, actions } = generationDefinition(definedActions);
     expect(Object.keys(actionTypes).length).toBe(1);
-    expect(actions.multipleStuff('one', 'two', 'three', 'four')).toEqual(
+    expect(actions.multipleStuff()).toEqual(
       createAction(actionTypes.MULTIPLE_STUFF, {
         one: 'one',
         two: 'two',
