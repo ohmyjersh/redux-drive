@@ -1,3 +1,2 @@
-#redux-drive: simplify redux boilerplate
-This is in active development, might be in a broken state at times.
-`npm install --save redux-drive`
+#redux-drive: simplify redux boilerplate <br />
+This is in active development, might be in a broken state at times. <br />
