@@ -2,17 +2,19 @@ import { generationDefinition, createAction } from './reduxDrive';
 
 describe('create the actions with types funcs and payloads', () => {
   it('should create a func with the correct payload', () => {
+    const keyForAction = 'SET_TEMPLATE_DETAILS';
     const definedActions = {
-      SET_TEMPLATE_DETAILS: {
+      [keyForAction]: {
         payload: templateName => ({ templateName }),
         reduce: () => {},
       },
     };
     const { actionTypes, actions } = generationDefinition(definedActions);
     expect(Object.keys(actionTypes).length).toBe(1);
+    const action = actions.setTemplateDetails('hi');
     expect(actions.setTemplateDetails('hi')).toEqual({
       payload: { templateName: 'hi' },
-      type: 'SET_TEMPLATE_DETAILS',
+      type: `${keyForAction}`,
     });
   });
   it('should create a func with the correct payload', () => {
