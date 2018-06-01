@@ -1,7 +1,8 @@
 {
   "name": "redux-drive",
-  "version": "1.0.2",
-  "description": "Produce universal library with webpack and es6",
+  "version": "1.0.0",
+  "description":
+    "redux-drive is a way to simplify redux boilerplate without a complete rewrite",
   "main": "lib/redux-drive.js",
   "scripts": {
     "build": "webpack --env dev && webpack --env build && npm run test",
@@ -11,25 +12,25 @@
     "precommit": "pretty-quick --staged",
     "release": "npm run build && npm publish"
   },
+  "keywords": [
+    "redux",
+    "boilerplate",
+    "refactor",
+    "simple",
+    "state-management",
+    "cool",
+    "awesome"
+  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/krasimir/webpack-library-starter.git"
+    "url": "git+https://github.com/ohmyjersh/redux-drive.git"
   },
-  "keywords": [
-    "webpack",
-    "es6",
-    "starter",
-    "library",
-    "universal",
-    "umd",
-    "commonjs"
-  ],
-  "author": "Krasimir Tsonev",
-  "license": "MIT",
+  "author": "Josh Jarmain",
   "bugs": {
-    "url": "https://github.com/krasimir/webpack-library-starter/issues"
+    "url": "https://github.com/ohmyjersh/redux-drive/issues"
   },
-  "homepage": "https://github.com/krasimir/webpack-library-starter",
+  "homepage": "https://github.com/ohmyjersh/redux-drive#readme",
+  "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
